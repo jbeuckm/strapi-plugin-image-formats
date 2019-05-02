@@ -10,6 +10,7 @@ module.exports = {
   invert: new JimpMethod('invert', {}),
   greyscale: new JimpMethod('greyscale', {}),
   sepia: new JimpMethod('sepia', {}),
+  normalize: new JimpMethod('normalize', {}),
   dither565: new JimpMethod('dither565', {}),
   blur: new JimpMethod('blur', fieldConfigs['blur']),
   gaussian: new JimpMethod('gaussian', fieldConfigs['gaussian']),

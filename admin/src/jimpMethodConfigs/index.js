@@ -12,6 +12,7 @@ module.exports = {
   invert: {},
   greyscale: {},
   sepia: {},
+  normalize: {},
   dither565: {},
   blur,
   gaussian: blur,
