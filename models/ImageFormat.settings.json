@@ -1,0 +1,22 @@
+{
+  "connection": "default",
+  "info": {
+    "name": "imageformat",
+    "description": "Named set of steps for processing an image"
+  },
+  "options": {
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "steps": {
+      "type": "json"
+    }
+  },
+  "collectionName": "image-formats_imageformat"
+}

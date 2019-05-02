@@ -1,9 +1,33 @@
 {
   "routes": [
     {
+      "method": "POST",
+      "path": "/",
+      "handler": "ImageFormats.create",
+      "config": {
+        "policies": ["global.isAuthenticated"]
+      }
+    },
+    {
       "method": "GET",
       "path": "/",
       "handler": "ImageFormats.index",
+      "config": {
+        "policies": ["global.isAuthenticated"]
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/:importId",
+      "handler": "ImageFormats.delete",
+      "config": {
+        "policies": ["global.isAuthenticated"]
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/:imageFormatId/:fileId",
+      "handler": "ImageFormats.getFormattedImage",
       "config": {
         "policies": []
       }

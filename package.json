@@ -4,7 +4,7 @@
   "description": "Process image uploads.",
   "strapi": {
     "name": "Image Formats",
-    "icon": "plug",
+    "icon": "crop",
     "description": "Process image uploads."
   },
   "scripts": {
@@ -22,7 +22,13 @@
     "test": "npm run lint",
     "prepublishOnly": "npm run build"
   },
-  "dependencies": {},
+  "dependencies": {
+    "jest": "^24.7.1",
+    "joi": "^14.3.1",
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0",
+    "request": "^2.88.0"
+  },
   "devDependencies": {
     "strapi-helper-plugin": "3.0.0-alpha.26"
   },
