@@ -10,6 +10,7 @@ import pluginId from 'pluginId';
 
 // Containers
 import HomePage from 'containers/HomePage';
+import EditImageFormatPage from 'containers/EditImageFormatPage';
 import NotFoundPage from 'containers/NotFoundPage';
 
 import reducer from './reducer';
@@ -20,6 +21,14 @@ class App extends React.Component {
       <div className={pluginId}>
         <Switch>
           <Route path={`/plugins/${pluginId}`} component={HomePage} exact />
+          <Route
+            path={`/plugins/${pluginId}/create`}
+            component={EditImageFormatPage}
+          />
+          <Route
+            path={`/plugins/${pluginId}/edit/:imageFormatId`}
+            component={EditImageFormatPage}
+          />
           <Route component={NotFoundPage} />
         </Switch>
       </div>

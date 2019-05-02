@@ -30,6 +30,10 @@ export class HomePage extends Component {
     this.props.history.push(`/plugins/${pluginId}/create`);
   };
 
+  navigateToEditImageFormat = imageFormatId => {
+    this.props.history.push(`/plugins/${pluginId}/edit/${imageFormatId}`);
+  };
+
   deleteImageFormat = id => () => {
     this.props.deleteImageFormat(id);
   };
@@ -66,6 +70,10 @@ export class HomePage extends Component {
                     <td>
                       <IcoContainer
                         icons={[
+                          {
+                            icoType: 'pencil',
+                            onClick: this.navigateToEditImageFormat(item.id)
+                          },
                           {
                             icoType: 'trash',
                             onClick: this.deleteImageFormat(item.id)

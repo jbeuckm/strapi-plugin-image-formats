@@ -17,8 +17,16 @@
       }
     },
     {
+      "method": "GET",
+      "path": "/:imageFormatId",
+      "handler": "ImageFormats.fetch",
+      "config": {
+        "policies": ["global.isAuthenticated"]
+      }
+    },
+    {
       "method": "DELETE",
-      "path": "/:imageFormatName",
+      "path": "/:imageFormatId",
       "handler": "ImageFormats.delete",
       "config": {
         "policies": ["global.isAuthenticated"]

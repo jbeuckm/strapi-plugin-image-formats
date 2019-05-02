@@ -24,11 +24,21 @@ module.exports = {
     ctx.send(entry);
   },
 
+  fetch: async ctx => {
+    const imageFormatId = ctx.params.imageFormatId;
+
+    const model = await strapi.query('imageformat', 'image-formats').findOne({
+      id: imageFormatId
+    });
+
+    ctx.send(model);
+  },
+
   delete: async ctx => {
-    const imageFormatName = ctx.params.imageFormatId;
+    const imageFormatId = ctx.params.imageFormatId;
 
     await strapi.query('imageformat', 'image-formats').delete({
-      name: imageFormatName
+      id: imageFormatId
     });
 
     ctx.send({ message: 'ok' });
