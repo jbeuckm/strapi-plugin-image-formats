@@ -8,6 +8,8 @@ import pluginId from 'pluginId';
 
 import Button from 'components/Button';
 import PluginHeader from 'components/PluginHeader';
+import StepEditor from './StepEditor';
+import IcoContainer from 'components/IcoContainer';
 
 import styles from './styles.scss';
 import { loadImageFormat, saveImageFormat } from './actions';
@@ -37,12 +39,13 @@ export class CreateImageFormatPage extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (!this.props.imageFormat && nextProps.imageFormat) {
-      console.log('loaded imageFormat', nextProps.imageFormat);
       this.setState({
         name: nextProps.imageFormat.name,
-        description: nextProps.imageFormat.description
+        description: nextProps.imageFormat.description,
+        steps: nextProps.imageFormat.steps
       });
     }
+
     if (!this.props.created && nextProps.created) {
       this.props.history.push(`/plugins/${pluginId}`);
     }
@@ -64,10 +67,31 @@ export class CreateImageFormatPage extends Component {
       id: imageFormatId,
       name: this.state.name,
       description: this.state.description,
-      steps: this.state.steps
+      steps: JSON.stringify(this.state.steps)
     };
 
     this.props.saveImageFormat(imageFormat);
+  };
+
+  addStep = () => {
+    this.setState({
+      steps: [
+        ...this.state.steps,
+        { method: 'contain', params: { width: 100, height: 100 } }
+      ]
+    });
+  };
+
+  removeStep = index => () => {
+    this.setState({
+      steps: _.filter(this.state.steps, (el, _index) => _index !== index)
+    });
+  };
+
+  stepChanged = (index, updated) => {
+    const steps = _.cloneDeep(this.state.steps);
+    steps[index] = updated;
+    this.setState({ steps: steps });
   };
 
   render() {
@@ -106,7 +130,35 @@ export class CreateImageFormatPage extends Component {
         </div>
 
         <div className="row">
-          <div className="col-md-12">{JSON.stringify(steps)}</div>
+          <div className="col-md-12">
+            <table>
+              {steps.map((step, index) => (
+                <tr>
+                  <td>
+                    <StepEditor
+                      step={step}
+                      onChange={updated => this.stepChanged(index, updated)}
+                    />
+                  </td>
+                  <td>
+                    <IcoContainer
+                      icons={[
+                        {
+                          icoType: 'remove',
+                          onClick: this.removeStep(index)
+                        }
+                      ]}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </table>
+          </div>
+          <Button
+            label="Add a step"
+            onClick={this.addStep}
+            secondaryHotlineAdd
+          />
         </div>
 
         <div className="row">

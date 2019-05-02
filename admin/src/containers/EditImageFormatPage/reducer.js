@@ -26,7 +26,6 @@ function createImageFormatPageReducer(state = initialState, action) {
       return state.set('loading', true).set('imageFormat', null);
 
     case LOAD_IMAGE_FORMAT_SUCCESS: {
-      console.log(payload);
       return state
         .set('loading', false)
         .set('imageFormat', payload.imageFormat);
@@ -39,7 +38,6 @@ function createImageFormatPageReducer(state = initialState, action) {
       return state.set('saving', true).set('created', null);
 
     case SAVE_IMAGE_FORMAT_SUCCESS: {
-      console.log(payload);
       return state.set('saving', false).set('created', payload.saved);
     }
 

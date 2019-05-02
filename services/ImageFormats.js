@@ -1,7 +1,7 @@
 'use strict';
 const getUploadProvider = require('./utils/getUploadProvider');
 const Jimp = require('jimp');
-
+const jimpMethods = require('./jimpMethods');
 /**
  * ImageFormats.js service
  *
@@ -23,6 +23,21 @@ module.exports = {
     const image = await Jimp.read(url);
 
     console.log(imageFormat);
+    const steps = [
+      {
+        method: 'contain',
+        params: {
+          width: 300,
+          height: 300
+        }
+      }
+    ];
+
+    steps.forEach(({ method, params }) => {
+      const methodFunction = image[method];
+      const args = jimpMethods[method].getArgumentsArray(params);
+      methodFunction.apply(image, args);
+    });
 
     const buffer = await image.getBufferAsync(Jimp.AUTO);
     return { mime: file.mime, buffer };
