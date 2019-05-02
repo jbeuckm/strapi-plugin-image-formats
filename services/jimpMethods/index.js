@@ -1,9 +1,14 @@
 const JimpMethod = require('./JimpMethod');
-const containFieldConfigs = require('../../admin/src/jimpMethodConfigs/contain');
+const fieldConfigs = require('../../admin/src/jimpMethodConfigs');
 
 module.exports = {
-  contain: new JimpMethod('contain', containFieldConfigs),
+  contain: new JimpMethod('contain', fieldConfigs['contain']),
+  cover: new JimpMethod('cover', fieldConfigs['cover']),
+  resize: new JimpMethod('resize', fieldConfigs['resize']),
+  scaleToFit: new JimpMethod('scaleToFit', fieldConfigs['scaleToFit']),
+  crop: new JimpMethod('crop', fieldConfigs['crop']),
   invert: new JimpMethod('invert', {}),
   greyscale: new JimpMethod('greyscale', {}),
-  sepia: new JimpMethod('sepia', {})
+  sepia: new JimpMethod('sepia', {}),
+  dither565: new JimpMethod('dither565', {})
 };
