@@ -4,7 +4,7 @@ import pluginId from 'pluginId';
 /**
  * Direct selector to the examplePage state domain
  */
-const selectCreateImportPageDomain = () => state =>
+const selectEditImageFormatPageDomain = () => state =>
   state.get(`${pluginId}_createImageFormatPage`);
 
 /**
@@ -12,28 +12,28 @@ const selectCreateImportPageDomain = () => state =>
  */
 
 const makeSelectLoading = () =>
-  createSelector(selectCreateImportPageDomain(), substate =>
+  createSelector(selectEditImageFormatPageDomain(), substate =>
     substate.get('loading')
   );
 
-const makeSelectModels = () =>
-  createSelector(selectCreateImportPageDomain(), substate =>
-    substate.get('models')
+const makeSelectImageFormat = () =>
+  createSelector(selectEditImageFormatPageDomain(), substate =>
+    substate.get('imageFormat')
   );
 
 const makeSelectCreated = () =>
-  createSelector(selectCreateImportPageDomain(), substate =>
+  createSelector(selectEditImageFormatPageDomain(), substate =>
     substate.get('created')
   );
 
 const makeSelectSaving = () =>
-  createSelector(selectCreateImportPageDomain(), substate =>
+  createSelector(selectEditImageFormatPageDomain(), substate =>
     substate.get('saving')
   );
 
 export {
   makeSelectLoading,
-  makeSelectModels,
+  makeSelectImageFormat,
   makeSelectCreated,
   makeSelectSaving
 };

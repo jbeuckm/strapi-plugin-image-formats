@@ -30,7 +30,7 @@ export class HomePage extends Component {
     this.props.history.push(`/plugins/${pluginId}/create`);
   };
 
-  navigateToEditImageFormat = imageFormatId => {
+  navigateToEditImageFormat = imageFormatId => () => {
     this.props.history.push(`/plugins/${pluginId}/edit/${imageFormatId}`);
   };
 

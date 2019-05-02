@@ -13,6 +13,7 @@ import styles from './styles.scss';
 import { loadImageFormat, saveImageFormat } from './actions';
 import {
   makeSelectLoading,
+  makeSelectImageFormat,
   makeSelectCreated,
   makeSelectSaving
 } from './selectors';
@@ -29,21 +30,38 @@ export class CreateImageFormatPage extends Component {
     };
   }
 
+  componentDidMount() {
+    const { imageFormatId } = this.props.match.params;
+    imageFormatId && this.props.loadImageFormat(imageFormatId);
+  }
+
   componentWillReceiveProps(nextProps) {
+    if (!this.props.imageFormat && nextProps.imageFormat) {
+      console.log('loaded imageFormat', nextProps.imageFormat);
+      this.setState({
+        name: nextProps.imageFormat.name,
+        description: nextProps.imageFormat.description
+      });
+    }
     if (!this.props.created && nextProps.created) {
       this.props.history.push(`/plugins/${pluginId}`);
     }
   }
 
   onChangeName = event => {
-    this.setState({ name: event.target.value });
+    const submittedValue = event.target.value;
+    const lowercase = submittedValue.toLowerCase();
+    const replaced = lowercase.replace(/[^a-z0-9]/g, '-');
+    this.setState({ name: replaced.substring(0, 16) });
   };
   onChangeDescription = event => {
     this.setState({ description: event.target.value });
   };
 
   onSaveImageFormat = () => {
+    const { imageFormatId } = this.props.match.params;
     const imageFormat = {
+      id: imageFormatId,
       name: this.state.name,
       description: this.state.description,
       steps: this.state.steps
@@ -79,7 +97,7 @@ export class CreateImageFormatPage extends Component {
         <div className="row">
           <div className="col-md-12">
             Description:
-            <textarea
+            <input
               className={styles.urlInput}
               onChange={this.onChangeDescription}
               value={description}
@@ -113,6 +131,7 @@ CreateImageFormatPage.contextTypes = {
 CreateImageFormatPage.propTypes = {
   loadImageFormat: PropTypes.func.isRequired,
   saveImageFormat: PropTypes.func.isRequired,
+  imageFormat: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
   saving: PropTypes.bool.isRequired,
   created: PropTypes.object.isRequired
@@ -125,6 +144,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = createStructuredSelector({
   loading: makeSelectLoading(),
+  imageFormat: makeSelectImageFormat(),
   created: makeSelectCreated(),
   saving: makeSelectSaving()
 });

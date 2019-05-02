@@ -34,6 +34,21 @@ module.exports = {
     ctx.send(model);
   },
 
+  update: async ctx => {
+    const imageFormatId = ctx.params.imageFormatId;
+    const updatedModel = ctx.request.body;
+    console.log('create', updatedModel);
+
+    const model = await strapi.query('imageformat', 'image-formats').update(
+      {
+        id: imageFormatId
+      },
+      updatedModel
+    );
+
+    ctx.send(model);
+  },
+
   delete: async ctx => {
     const imageFormatId = ctx.params.imageFormatId;
 

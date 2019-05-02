@@ -25,6 +25,14 @@
       }
     },
     {
+      "method": "PUT",
+      "path": "/:imageFormatId",
+      "handler": "ImageFormats.update",
+      "config": {
+        "policies": ["global.isAuthenticated"]
+      }
+    },
+    {
       "method": "DELETE",
       "path": "/:imageFormatId",
       "handler": "ImageFormats.delete",

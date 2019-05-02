@@ -28,12 +28,21 @@ export function* saveImageFormat(event) {
   try {
     const { imageFormat } = event.payload;
 
-    const saved = yield call(request, '/image-formats', {
-      method: 'POST',
-      body: imageFormat
-    });
+    if (imageFormat.id) {
+      const saved = yield call(request, `/image-formats/${imageFormat.id}`, {
+        method: 'PUT',
+        body: imageFormat
+      });
 
-    yield put(saveImageFormatSuccess(saved));
+      yield put(saveImageFormatSuccess(saved));
+    } else {
+      const saved = yield call(request, '/image-formats', {
+        method: 'POST',
+        body: imageFormat
+      });
+
+      yield put(saveImageFormatSuccess(saved));
+    }
   } catch (error) {
     strapi.notification.error('notification.error');
     yield put(saveImageFormatError(error));
