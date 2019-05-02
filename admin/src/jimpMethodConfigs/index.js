@@ -1,5 +1,8 @@
 import contain from './contain';
 
 export default {
-  contain
+  contain,
+  invert: {},
+  greyscale: {},
+  sepia: {}
 };

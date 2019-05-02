@@ -70,7 +70,7 @@ class StepEditor extends Component {
 
     return (
       <div>
-        <select onChange={this.onChangeMethod}>
+        <select onChange={this.onChangeMethod} value={this.state.method}>
           {Object.keys(jimpMethodConfigs).map(method => (
             <option value={method}>{method}</option>
           ))}

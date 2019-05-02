@@ -32,7 +32,9 @@ class JimpMethod {
 
   buildMethodSchema(argumentFields) {
     const schemaKeys = _.mapValues(argumentFields, this.buildFieldSchema);
-    return Joi.object().keys(schemaKeys);
+    return Joi.object()
+      .keys(schemaKeys)
+      .unknown(true);
   }
 
   getArgumentsArray(formValues) {
