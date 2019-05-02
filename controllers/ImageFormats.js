@@ -67,10 +67,11 @@ module.exports = {
   getFormattedImage: async ctx => {
     const { imageFormatName, fileId } = ctx.params;
 
-    const result = await strapi.plugins['image-formats'].services[
+    const { mime, buffer } = await strapi.plugins['image-formats'].services[
       'imageformats'
     ].getFormattedImage({ imageFormatName, fileId });
 
-    ctx.send(result);
+    ctx.set('Content-Type', mime);
+    ctx.send(buffer);
   }
 };

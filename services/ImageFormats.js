@@ -1,4 +1,6 @@
 'use strict';
+const getUploadProvider = require('./utils/getUploadProvider');
+const Jimp = require('jimp');
 
 /**
  * ImageFormats.js service
@@ -8,7 +10,6 @@
 
 module.exports = {
   getFormattedImage: async ({ imageFormatName, fileId }) => {
-    console.log('service.getFormattedImage', { imageFormatName, fileId });
     const [imageFormat, file] = await Promise.all([
       strapi
         .query('imageformat', 'image-formats')
@@ -17,7 +18,13 @@ module.exports = {
       strapi.plugins['upload'].services['upload'].fetch({ id: fileId })
     ]);
 
-    console.log({ imageFormat, file });
-    return imageFormat;
+    const uploadProvider = await getUploadProvider();
+    const url = uploadProvider.getPath(file);
+    const image = await Jimp.read(url);
+
+    console.log(imageFormat);
+
+    const buffer = await image.getBufferAsync(Jimp.AUTO);
+    return { mime: file.mime, buffer };
   }
 };
