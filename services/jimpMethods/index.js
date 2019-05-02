@@ -12,5 +12,6 @@ module.exports = {
   sepia: new JimpMethod('sepia', {}),
   dither565: new JimpMethod('dither565', {}),
   blur: new JimpMethod('blur', fieldConfigs['blur']),
-  gaussian: new JimpMethod('gaussian', fieldConfigs['gaussian'])
+  gaussian: new JimpMethod('gaussian', fieldConfigs['gaussian']),
+  pixelate: new JimpMethod('pixelate', fieldConfigs['pixelate'])
 };

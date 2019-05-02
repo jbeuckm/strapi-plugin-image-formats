@@ -1,6 +1,7 @@
 const contain = require('./contain');
 const crop = require('./crop');
 const blur = require('./blur');
+const pixelate = require('./pixelate');
 
 module.exports = {
   contain,
@@ -13,5 +14,6 @@ module.exports = {
   sepia: {},
   dither565: {},
   blur,
-  gaussian: blur
+  gaussian: blur,
+  pixelate
 };
