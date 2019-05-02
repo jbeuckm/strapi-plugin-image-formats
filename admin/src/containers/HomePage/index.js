@@ -7,7 +7,6 @@ import { createStructuredSelector } from 'reselect';
 import { injectIntl } from 'react-intl';
 import { compose } from 'redux';
 import pluginId from 'pluginId';
-import moment from 'moment';
 
 import {
   selectImageFormats,
@@ -53,20 +52,16 @@ export class HomePage extends Component {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Steps</th>
-              <th>Updated</th>
+              <th>Description</th>
             </tr>
           </thead>
           <tbody>
             {imageFormats &&
               imageFormats.map(item => {
-                const updatedAt = moment(item.updated_at);
-
                 return (
                   <tr className={item.ongoing ? styles.inProgress : null}>
                     <td>{item.name}</td>
                     <td>{item.description}</td>
-                    <td>{updatedAt.fromNow()}</td>
                     <td>
                       <IcoContainer
                         icons={[
