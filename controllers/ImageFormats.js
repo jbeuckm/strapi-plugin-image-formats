@@ -25,10 +25,10 @@ module.exports = {
   },
 
   delete: async ctx => {
-    const imageFormatId = ctx.params.imageFormatId;
+    const imageFormatName = ctx.params.imageFormatId;
 
     await strapi.query('imageformat', 'image-formats').delete({
-      id: imageFormatId
+      name: imageFormatName
     });
 
     ctx.send({ message: 'ok' });
@@ -40,8 +40,12 @@ module.exports = {
    * @return {Object}
    */
   getFormattedImage: async ctx => {
-    const { imageFormatId, fileId } = ctx.params;
+    const { imageFormatName, fileId } = ctx.params;
 
-    ctx.send({ imageFormatId, fileId });
+    const result = await strapi.plugins['image-formats'].services[
+      'imageformats'
+    ].getFormattedImage({ imageFormatName, fileId });
+
+    ctx.send(result);
   }
 };

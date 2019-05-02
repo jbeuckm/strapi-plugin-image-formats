@@ -18,7 +18,7 @@
     },
     {
       "method": "DELETE",
-      "path": "/:importId",
+      "path": "/:imageFormatName",
       "handler": "ImageFormats.delete",
       "config": {
         "policies": ["global.isAuthenticated"]
@@ -26,7 +26,7 @@
     },
     {
       "method": "GET",
-      "path": "/:imageFormatId/:fileId",
+      "path": "/:imageFormatName/:fileId",
       "handler": "ImageFormats.getFormattedImage",
       "config": {
         "policies": []
