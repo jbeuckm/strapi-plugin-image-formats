@@ -5,6 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import { injectIntl } from 'react-intl';
 import { compose } from 'redux';
 import pluginId from 'pluginId';
+import uuid from 'uuid/v4';
 
 import Button from 'components/Button';
 import PluginHeader from 'components/PluginHeader';
@@ -78,21 +79,24 @@ export class CreateImageFormatPage extends Component {
     this.setState({
       steps: [
         ...this.state.steps,
-        { method: 'contain', params: { width: 100, height: 100 } }
+        { id: uuid(), method: 'contain', params: { width: 100, height: 100 } }
       ]
     });
   };
 
-  removeStep = index => () => {
+  removeStep = _id => () => {
     this.setState({
-      steps: _.filter(this.state.steps, (el, _index) => _index !== index)
+      steps: _.filter(this.state.steps, step => step.id !== _id)
     });
   };
 
-  stepChanged = (index, updated) => {
-    const steps = _.cloneDeep(this.state.steps);
-    steps[index] = updated;
-    this.setState({ steps: steps });
+  stepChanged = updated => {
+    const newSteps = _.cloneDeep(this.state.steps);
+
+    const index = _.findIndex(newSteps, step => step.id == updated.id);
+    newSteps[index] = updated;
+
+    this.setState({ steps: newSteps });
   };
 
   render() {
@@ -145,20 +149,17 @@ export class CreateImageFormatPage extends Component {
         <div className="row">
           <div className="col-md-12">
             <table>
-              {steps.map((step, index) => (
-                <tr>
+              {steps.map(step => (
+                <tr key={step.id}>
                   <td>
-                    <StepEditor
-                      step={step}
-                      onChange={updated => this.stepChanged(index, updated)}
-                    />
+                    <StepEditor step={step} onChange={this.stepChanged} />
                   </td>
                   <td>
                     <IcoContainer
                       icons={[
                         {
                           icoType: 'remove',
-                          onClick: this.removeStep(index)
+                          onClick: this.removeStep(step.id)
                         }
                       ]}
                     />
