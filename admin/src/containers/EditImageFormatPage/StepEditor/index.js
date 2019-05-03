@@ -14,7 +14,12 @@ class StepEditor extends Component {
   };
 
   onChangeMethod = event => {
-    this.setState({ method: event.target.value }, this.reportChanged);
+    const newMethod = event.target.value;
+    const argumentConfigs = jimpMethodConfigs[newMethod];
+
+    const params = _.mapValues(argumentConfigs, 'default');
+
+    this.setState({ method: newMethod, params }, this.reportChanged);
   };
 
   onChangeValue = (argumentName, newValue) => {

@@ -15,13 +15,15 @@ const FIELD_CONFIGS = {
     type: 'integer',
     min: 1,
     max: 4096,
-    required: true
+    required: true,
+    default: 150
   },
   height: {
     type: 'integer',
     min: 1,
     max: 4096,
-    required: true
+    required: true,
+    default: 150
   }
   // mode: {
   //   type: 'select',
