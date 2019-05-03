@@ -12,6 +12,7 @@ import PluginHeader from 'components/PluginHeader';
 import StepEditor from './StepEditor';
 import IcoContainer from 'components/IcoContainer';
 import Preview from '../../components/Preview';
+import InputText from 'components/InputsIndex';
 
 import styles from './styles.scss';
 import { loadImageFormat, saveImageFormat } from './actions';
@@ -126,20 +127,16 @@ export class CreateImageFormatPage extends Component {
 
         <div className="row">
           <div className="col-md-12">
-            Name:
-            <input
-              className={styles.urlInput}
+            <InputText
+              label="Name"
+              type="text"
               onChange={this.onChangeName}
               value={name}
             />
-          </div>
-        </div>
 
-        <div className="row">
-          <div className="col-md-12">
-            Description:
-            <input
-              className={styles.urlInput}
+            <InputText
+              label="Description"
+              type="text"
               onChange={this.onChangeDescription}
               value={description}
             />
@@ -148,9 +145,10 @@ export class CreateImageFormatPage extends Component {
 
         <div className="row">
           <div className="col-md-12">
+            <h3>Steps</h3>
             <table>
               {steps.map(step => (
-                <tr key={step.id}>
+                <tr className={styles.stepRow} key={step.id}>
                   <td>
                     <StepEditor step={step} onChange={this.stepChanged} />
                   </td>
@@ -166,13 +164,17 @@ export class CreateImageFormatPage extends Component {
                   </td>
                 </tr>
               ))}
+              <tr style={{ textAlign: 'right' }}>
+                <td colSpan="6">
+                  <Button
+                    label="Add a step"
+                    onClick={this.addStep}
+                    secondaryHotlineAdd
+                  />
+                </td>
+              </tr>
             </table>
           </div>
-          <Button
-            label="Add a step"
-            onClick={this.addStep}
-            secondaryHotlineAdd
-          />
         </div>
 
         <div className="row">

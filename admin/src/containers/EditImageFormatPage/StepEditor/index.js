@@ -2,6 +2,17 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import jimpMethodConfigs from '../../../jimpMethodConfigs';
 
+const styles = {
+  argument: {
+    paddingLeft: 8,
+    paddingRight: 8
+  },
+  argumentLabel: {
+    fontWeight: 900,
+    paddingRight: 8
+  }
+};
+
 class StepEditor extends Component {
   constructor(props) {
     super(props);
@@ -75,18 +86,21 @@ class StepEditor extends Component {
 
     return (
       <div>
-        <select onChange={this.onChangeMethod} value={this.state.method}>
-          {Object.keys(jimpMethodConfigs).map(method => (
-            <option value={method}>{method}</option>
-          ))}
-        </select>
+        <span style={styles.argument}>
+          <label style={styles.argumentLabel}>op</label>
+          <select onChange={this.onChangeMethod} value={this.state.method}>
+            {Object.keys(jimpMethodConfigs).map(method => (
+              <option value={method}>{method}</option>
+            ))}
+          </select>
+        </span>
 
         {Object.keys(argumentConfigs).map(argumentName => {
           const config = argumentConfigs[argumentName];
 
           return (
-            <span>
-              <label>{argumentName}</label>
+            <span style={styles.argument}>
+              <label style={styles.argumentLabel}>{argumentName}</label>
               {this.renderInput(argumentName, config)}
             </span>
           );
