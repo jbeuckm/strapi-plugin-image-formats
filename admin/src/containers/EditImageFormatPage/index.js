@@ -107,9 +107,9 @@ export class CreateImageFormatPage extends Component {
     const saveDisabled = loading || saving || steps == [];
 
     const previewFormat = {
-      name: this.state.name,
-      description: this.state.description,
-      steps: this.state.steps
+      name,
+      description,
+      steps
     };
 
     return (
@@ -140,11 +140,7 @@ export class CreateImageFormatPage extends Component {
               onChange={this.onChangeDescription}
               value={description}
             />
-          </div>
-        </div>
 
-        <div className="row">
-          <div className="col-md-12">
             <h3>Steps</h3>
             <table>
               {steps.map(step => (

@@ -44,7 +44,9 @@ class Preview extends Component {
   }
 
   updateImageData = async () => {
-    if (this.loadingImage || !this.imageNeedsUpdate) return;
+    if (this.loadingImage || !this.imageNeedsUpdate) {
+      return;
+    }
     this.imageNeedsUpdate = false;
 
     this.loadingImage = true;
@@ -61,6 +63,8 @@ class Preview extends Component {
       const buffer = await response.arrayBuffer();
       const imageData = _arrayBufferToBase64(buffer);
 
+      this.loadingImage = false;
+
       this.setState(
         {
           imageData: `data:image/jpeg;charset=utf-8;base64,${imageData}`
@@ -68,10 +72,9 @@ class Preview extends Component {
         this.updateImageData
       );
     } catch (error) {
+      this.loadingImage = false;
       console.log({ error });
     }
-
-    this.loadingImage = false;
   };
 
   onImageLoaded = event => {
