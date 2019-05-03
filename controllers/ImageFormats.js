@@ -13,6 +13,17 @@ module.exports = {
     ctx.send(entries);
   },
 
+  preview: async ctx => {
+    const imageFormat = ctx.request.body;
+
+    const { mime, buffer } = await strapi.plugins['image-formats'].services[
+      'imageformats'
+    ].preview({ imageFormat });
+
+    ctx.set('Content-Type', mime);
+    ctx.send(buffer);
+  },
+
   create: async ctx => {
     const imageFormat = ctx.request.body;
     console.log('create', imageFormat);

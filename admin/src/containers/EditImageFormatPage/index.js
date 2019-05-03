@@ -10,6 +10,7 @@ import Button from 'components/Button';
 import PluginHeader from 'components/PluginHeader';
 import StepEditor from './StepEditor';
 import IcoContainer from 'components/IcoContainer';
+import Preview from '../../components/Preview';
 
 import styles from './styles.scss';
 import { loadImageFormat, saveImageFormat } from './actions';
@@ -100,12 +101,24 @@ export class CreateImageFormatPage extends Component {
 
     const saveDisabled = loading || saving || steps == [];
 
+    const previewFormat = {
+      name: this.state.name,
+      description: this.state.description,
+      steps: this.state.steps
+    };
+
     return (
       <div className={styles.editImageFormatPage}>
         <PluginHeader
           title={'Edit Image Format'}
           description={'Define an image processing sequence'}
         />
+
+        <div className="row">
+          <div className="col-md-12">
+            <Preview imageFormat={previewFormat} />
+          </div>
+        </div>
 
         <div className="row">
           <div className="col-md-12">

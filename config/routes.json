@@ -2,6 +2,14 @@
   "routes": [
     {
       "method": "POST",
+      "path": "/preview",
+      "handler": "ImageFormats.preview",
+      "config": {
+        "policies": ["global.isAuthenticated"]
+      }
+    },
+    {
+      "method": "POST",
       "path": "/",
       "handler": "ImageFormats.create",
       "config": {

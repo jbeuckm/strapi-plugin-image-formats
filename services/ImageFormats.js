@@ -9,6 +9,19 @@ const jimpMethods = require('./jimpMethods');
  */
 
 module.exports = {
+  preview: async ({ imageFormat }) => {
+    const image = await Jimp.read(`${__dirname}/sample_photo.jpg`);
+
+    imageFormat.steps.forEach(({ method, params }) => {
+      const methodFunction = image[method];
+      const args = jimpMethods[method].getArgumentsArray(params);
+      methodFunction.apply(image, args);
+    });
+
+    const buffer = await image.getBufferAsync(Jimp.AUTO);
+    return { mime: image.getMIME(), buffer };
+  },
+
   getFormattedImage: async ({ imageFormatName, fileId }) => {
     const [imageFormat, file] = await Promise.all([
       strapi
