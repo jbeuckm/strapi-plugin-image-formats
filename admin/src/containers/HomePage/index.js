@@ -7,6 +7,7 @@ import { createStructuredSelector } from 'reselect';
 import { injectIntl } from 'react-intl';
 import { compose } from 'redux';
 import pluginId from 'pluginId';
+import PluginHeader from 'components/PluginHeader';
 
 import {
   selectImageFormats,
@@ -42,6 +43,8 @@ export class HomePage extends Component {
 
     return (
       <div className={styles.homePage}>
+        <PluginHeader title={'Image Formats'} />
+
         <Button
           label="Create a new Image Format"
           onClick={this.navigateToCreateImageFormat}
