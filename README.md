@@ -26,4 +26,5 @@ When plugin has been installed, you need to allow access to the endpoints.
 
 ### Usage
 
-Coming soon...
+Click for video demo:
+[![Click for demo video](video_thumbnail.png)](https://youtu.be/tE8nNDoTiuk)
