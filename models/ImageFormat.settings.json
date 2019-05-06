@@ -16,7 +16,11 @@
     },
     "steps": {
       "type": "json"
+    },
+    "formattedFiles": {
+      "collection": "file",
+      "via": "related",
+      "plugin": "upload"
     }
-  },
-  "collectionName": "image-formats_imageformat"
+  }
 }
