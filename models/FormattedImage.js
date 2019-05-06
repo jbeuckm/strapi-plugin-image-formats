@@ -32,7 +32,7 @@ module.exports = {
   // afterUpdate: async (model, result) => {},
   // Before destroying a value.
   // Fired before a `delete` query.
-  // beforeDestroy: async (model) => {},
+  // beforeDestroy: async model => {},
   // After destroying a value.
   // Fired after a `delete` query.
   // afterDestroy: async (model, result) => {}

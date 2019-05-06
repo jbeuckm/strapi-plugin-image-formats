@@ -30,7 +30,7 @@ module.exports = {
   // After updating a value.
   // Fired after an `update` query.
   afterUpdate: async (model, result) => {
-    console.log('afterUpdate', model);
+    resetFormattedImageCache(model);
   },
   // Before destroying a value.
   // Fired before a `delete` query.
@@ -38,6 +38,33 @@ module.exports = {
   // After destroying a value.
   // Fired after a `delete` query.
   afterDestroy: async (model, result) => {
-    console.log('afterDestroy', model);
+    resetFormattedImageCache(model);
   }
+};
+
+const resetFormattedImageCache = async imageFormat => {
+  const formattedImages = await strapi
+    .query('formattedimage', 'image-formats')
+    .find({ imageFormatId: imageFormat.id });
+
+  formattedImages.forEach(async record => {
+    strapi.query('formattedimage', 'image-formats').delete({
+      id: record.id
+    });
+
+    const fileid = record.file[0].id;
+
+    const uploadProviderConfig = await strapi
+      .store({
+        environment: strapi.config.environment,
+        type: 'plugin',
+        name: 'upload'
+      })
+      .get({ key: 'provider' });
+
+    strapi.plugins['upload'].services['upload'].remove(
+      { id: fileid },
+      uploadProviderConfig
+    );
+  });
 };
