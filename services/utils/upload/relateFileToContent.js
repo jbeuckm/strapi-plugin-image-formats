@@ -1,10 +1,16 @@
-const relateFileToContent = async ({ fileDescriptor, imageFormatId }) => {
+const relateFileToContent = async ({
+  fileDescriptor,
+  referringField,
+  referringContentSource,
+  referringModel,
+  referringId
+}) => {
   fileDescriptor.related = [
     {
-      refId: imageFormatId,
-      ref: 'imageformat',
-      source: 'image-formats',
-      field: 'formattedFiles'
+      refId: referringId,
+      ref: referringModel,
+      source: referringContentSource,
+      field: referringField
     }
   ];
 

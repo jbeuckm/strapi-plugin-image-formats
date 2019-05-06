@@ -29,15 +29,11 @@ module.exports = {
   // beforeUpdate: async (model) => {},
   // After updating a value.
   // Fired after an `update` query.
-  afterUpdate: async (model, result) => {
-    console.log('afterUpdate', model);
-  },
+  // afterUpdate: async (model, result) => {},
   // Before destroying a value.
   // Fired before a `delete` query.
   // beforeDestroy: async (model) => {},
   // After destroying a value.
   // Fired after a `delete` query.
-  afterDestroy: async (model, result) => {
-    console.log('afterDestroy', model);
-  }
+  // afterDestroy: async (model, result) => {}
 };

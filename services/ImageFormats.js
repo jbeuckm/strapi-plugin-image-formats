@@ -68,9 +68,19 @@ module.exports = {
 
     fileDescriptor.provider = provider.provider;
 
+    const formattedImage = await strapi
+      .query('formattedimage', 'image-formats')
+      .create({
+        imageFormatId: imageFormat.id,
+        originalFileId: originalFile.id
+      });
+
     await relateFileToContent({
-      imageFormatId: imageFormat.id,
-      fileDescriptor
+      fileDescriptor,
+      referringField: 'file',
+      referringContentSource: 'image-formats',
+      referringModel: 'formattedimage',
+      referringId: formattedImage.id
     });
   }
 };

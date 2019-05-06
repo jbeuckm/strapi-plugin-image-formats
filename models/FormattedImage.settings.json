@@ -8,14 +8,16 @@
     "timestamps": true
   },
   "attributes": {
-    "name": {
-      "type": "string"
+    "imageFormatId": {
+      "type": "integer"
     },
-    "description": {
-      "type": "text"
+    "originalFileId": {
+      "type": "integer"
     },
-    "steps": {
-      "type": "json"
+    "file": {
+      "collection": "file",
+      "via": "related",
+      "plugin": "upload"
     }
   }
 }
