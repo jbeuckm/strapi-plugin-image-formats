@@ -5,6 +5,8 @@ const relateFileToContent = require('./utils/upload/relateFileToContent');
 
 const Jimp = require('jimp');
 const jimpMethods = require('./jimpMethods');
+const fs = require('fs');
+
 /**
  * ImageFormats.js service
  *
@@ -25,16 +27,36 @@ module.exports = {
     return { mime: image.getMIME(), buffer };
   },
 
+  retrieveCachedFormattedImage: async ({ imageFormat, fileId }) => {
+    const record = await strapi
+      .query('formattedimage', 'image-formats')
+      .findOne({ imageFormatId: imageFormat.id, originalFileId: fileId });
+
+    return record && record.file[0];
+  },
+
   getFormattedImage: async ({ imageFormatName, fileId }) => {
-    const [imageFormat, file] = await Promise.all([
+    const [imageFormat, uploadProvider] = await Promise.all([
       strapi
         .query('imageformat', 'image-formats')
         .findOne({ name: imageFormatName }),
-
-      strapi.plugins['upload'].services['upload'].fetch({ id: fileId })
+      getUploadProvider()
     ]);
 
-    const uploadProvider = await getUploadProvider();
+    const cachedImage = await strapi.plugins['image-formats'].services[
+      'imageformats'
+    ].retrieveCachedFormattedImage({ imageFormat, fileId });
+
+    if (cachedImage) {
+      const url = uploadProvider.getPath(cachedImage);
+      const buffer = fs.readFileSync(url);
+      return { mime: cachedImage.mime, buffer };
+    }
+
+    const file = await strapi.plugins['upload'].services['upload'].fetch({
+      id: fileId
+    });
+
     const url = uploadProvider.getPath(file);
     const image = await Jimp.read(url);
 
