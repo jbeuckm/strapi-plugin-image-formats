@@ -2,6 +2,8 @@
 
 Process uploaded images on demand with Strapi Node CMS
 
+[![Build Status](https://dev.azure.com/joebeuckman0156/Strapi%20Plugins/_apis/build/status/jbeuckm.strapi-plugin-image-formats?branchName=master)](https://dev.azure.com/joebeuckman0156/Strapi%20Plugins/_build/latest?definitionId=2&branchName=master)
+
 ### Installation
 
 ```
