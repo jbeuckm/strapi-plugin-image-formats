@@ -13,16 +13,6 @@ import saga from "./saga";
 
 import PropTypes from "prop-types";
 
-function _arrayBufferToBase64(buffer) {
-  var binary = "";
-  var bytes = new Uint8Array(buffer);
-  var len = bytes.byteLength;
-  for (var i = 0; i < len; i++) {
-    binary += String.fromCharCode(bytes[i]);
-  }
-  return window.btoa(binary);
-}
-
 class Preview extends Component {
   state = { imageData: null, dimensions: null };
 
@@ -51,14 +41,14 @@ class Preview extends Component {
     this.loadingImage = true;
 
     this.props.fetchPreview(this.props.steps);
-
+    /*
     try {
       const response = await fetch("/image-formats/preview", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ steps: this.props.steps })
+        body: { steps: this.props.steps }
       });
 
       const buffer = await response.arrayBuffer();
@@ -76,6 +66,7 @@ class Preview extends Component {
       this.loadingImage = false;
       console.log({ error });
     }
+    */
   };
 
   onImageLoaded = event => {
@@ -102,7 +93,9 @@ class Preview extends Component {
 }
 
 Preview.propTypes = {
-  steps: PropTypes.array.isRequired
+  steps: PropTypes.array.isRequired,
+  fetchPreview: PropTypes.func.isRequired,
+  imageDataUri: PropTypes.string.isRequired
 };
 
 const mapDispatchToProps = {

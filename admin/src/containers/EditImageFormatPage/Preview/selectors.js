@@ -5,7 +5,7 @@ import pluginId from "pluginId";
  * Direct selector to the examplePage state domain
  */
 const selectImagePreviewDomain = () => state =>
-  state.get(`${pluginId}_previewImage`);
+  state.get(`${pluginId}_imageFormatPreview`);
 
 /**
  * Default selector used by HomePage
