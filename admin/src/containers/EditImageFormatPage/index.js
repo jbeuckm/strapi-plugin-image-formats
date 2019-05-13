@@ -1,39 +1,36 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { injectIntl } from 'react-intl';
-import { compose } from 'redux';
-import pluginId from 'pluginId';
-import uuid from 'uuid/v4';
+import React, { Component, Fragment } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
+import { injectIntl } from "react-intl";
+import { compose } from "redux";
+import pluginId from "pluginId";
+import uuid from "uuid/v4";
 
-import Button from 'components/Button';
-import PluginHeader from 'components/PluginHeader';
-import StepEditor from './StepEditor';
-import IcoContainer from 'components/IcoContainer';
-import Preview from '../../components/Preview';
-import InputText from 'components/InputsIndex';
+import Button from "components/Button";
+import PluginHeader from "components/PluginHeader";
+import StepEditor from "../../components/StepEditor";
+import IcoContainer from "components/IcoContainer";
+import Preview from "./Preview";
+import InputText from "components/InputsIndex";
 
-import styles from './styles.scss';
-import { loadImageFormat, saveImageFormat } from './actions';
+import styles from "./styles.scss";
+import { loadImageFormat, saveImageFormat } from "./actions";
 import {
   makeSelectLoading,
   makeSelectImageFormat,
   makeSelectCreated,
   makeSelectSaving
-} from './selectors';
-import reducer from './reducer';
-import saga from './saga';
+} from "./selectors";
+import reducer from "./reducer";
+import saga from "./saga";
 
 export class CreateImageFormatPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: null,
-      description: null,
-      steps: []
-    };
-  }
+  state = {
+    name: null,
+    description: null,
+    steps: []
+  };
 
   componentDidMount() {
     const { imageFormatId } = this.props.match.params;
@@ -57,7 +54,7 @@ export class CreateImageFormatPage extends Component {
   onChangeName = event => {
     const submittedValue = event.target.value;
     const lowercase = submittedValue.toLowerCase();
-    const replaced = lowercase.replace(/[^a-z0-9]/g, '-');
+    const replaced = lowercase.replace(/[^a-z0-9]/g, "-");
     this.setState({ name: replaced.substring(0, 16) });
   };
   onChangeDescription = event => {
@@ -80,7 +77,7 @@ export class CreateImageFormatPage extends Component {
     this.setState({
       steps: [
         ...this.state.steps,
-        { id: uuid(), method: 'contain', params: { width: 100, height: 100 } }
+        { id: uuid(), method: "contain", params: { width: 100, height: 100 } }
       ]
     });
   };
@@ -106,22 +103,16 @@ export class CreateImageFormatPage extends Component {
 
     const saveDisabled = loading || saving || steps == [];
 
-    const previewFormat = {
-      name,
-      description,
-      steps
-    };
-
     return (
       <div className={styles.editImageFormatPage}>
         <PluginHeader
-          title={'Edit Image Format'}
-          description={'Define an image processing sequence'}
+          title={"Edit Image Format"}
+          description={"Define an image processing sequence"}
         />
 
         <div className="row">
           <div className="col-md-12">
-            <Preview imageFormat={previewFormat} />
+            <Preview steps={steps} />
           </div>
         </div>
 
@@ -152,7 +143,7 @@ export class CreateImageFormatPage extends Component {
                     <IcoContainer
                       icons={[
                         {
-                          icoType: 'remove',
+                          icoType: "remove",
                           onClick: this.removeStep(step.id)
                         }
                       ]}
@@ -160,7 +151,7 @@ export class CreateImageFormatPage extends Component {
                   </td>
                 </tr>
               ))}
-              <tr style={{ textAlign: 'right' }}>
+              <tr style={{ textAlign: "right" }}>
                 <td colSpan="6">
                   <Button
                     label="Add a step"
@@ -176,7 +167,7 @@ export class CreateImageFormatPage extends Component {
         <div className="row">
           <div className="col-md-12">
             <Button
-              label={loading ? 'Loading...' : 'Save Image Format'}
+              label={loading ? "Loading..." : "Save Image Format"}
               disabled={saveDisabled}
               onClick={this.onSaveImageFormat}
               primary
@@ -219,12 +210,12 @@ const withConnect = connect(
 );
 
 const withReducer = strapi.injectReducer({
-  key: 'createImageFormatPage',
+  key: "createImageFormatPage",
   reducer,
   pluginId
 });
 const withSaga = strapi.injectSaga({
-  key: 'createImageFormatPage',
+  key: "createImageFormatPage",
   saga,
   pluginId
 });

@@ -1,4 +1,4 @@
-import { fromJS } from "immutable";
+import { fromJS } from 'immutable';
 
 import {
   LOAD_IMAGE_FORMAT,
@@ -7,7 +7,7 @@ import {
   SAVE_IMAGE_FORMAT,
   SAVE_IMAGE_FORMAT_SUCCESS,
   SAVE_IMAGE_FORMAT_ERROR
-} from "./constants";
+} from './constants';
 
 const initialState = fromJS({
   loading: false,
@@ -23,30 +23,26 @@ function createImageFormatPageReducer(state = initialState, action) {
 
   switch (type) {
     case LOAD_IMAGE_FORMAT:
-      return state.set("loading", true).set("imageFormat", null);
+      return state.set('loading', true).set('imageFormat', null);
 
     case LOAD_IMAGE_FORMAT_SUCCESS: {
-      const { imageFormat } = payload;
-
-      if (typeof imageFormat.steps === "string") {
-        imageFormat.steps = JSON.parse(imageFormat.steps);
-      }
-
-      return state.set("loading", false).set("imageFormat", imageFormat);
+      return state
+        .set('loading', false)
+        .set('imageFormat', payload.imageFormat);
     }
 
     case LOAD_IMAGE_FORMAT_ERROR:
-      return state.set("loading", false).set("loadError", payload);
+      return state.set('loading', false).set('loadError', payload);
 
     case SAVE_IMAGE_FORMAT:
-      return state.set("saving", true).set("created", null);
+      return state.set('saving', true).set('created', null);
 
     case SAVE_IMAGE_FORMAT_SUCCESS: {
-      return state.set("saving", false).set("created", payload.saved);
+      return state.set('saving', false).set('created', payload.saved);
     }
 
     case SAVE_IMAGE_FORMAT_ERROR:
-      return state.set("loading", false).set("saveError", payload);
+      return state.set('loading', false).set('saveError', payload);
 
     default:
       return state;

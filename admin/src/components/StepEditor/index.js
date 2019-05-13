@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import jimpMethodConfigs from '../../../jimpMethodConfigs';
+import React, { Component, Fragment } from "react";
+import PropTypes from "prop-types";
+import jimpMethodConfigs from "../../jimpMethodConfigs";
 
 const styles = {
   argument: {
@@ -28,7 +28,7 @@ class StepEditor extends Component {
     const newMethod = event.target.value;
     const argumentConfigs = jimpMethodConfigs[newMethod];
 
-    const params = _.mapValues(argumentConfigs, 'default');
+    const params = _.mapValues(argumentConfigs, "default");
 
     this.setState({ method: newMethod, params }, this.reportChanged);
   };
@@ -49,7 +49,7 @@ class StepEditor extends Component {
     const value = this.state.params[argumentName];
 
     switch (config.type) {
-      case 'integer':
+      case "integer":
         return (
           <input
             type="number"
@@ -62,7 +62,7 @@ class StepEditor extends Component {
           />
         );
 
-      case 'select':
+      case "select":
         return (
           <select
             value={value}

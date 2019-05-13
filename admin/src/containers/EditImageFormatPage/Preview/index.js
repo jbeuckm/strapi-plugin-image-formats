@@ -1,24 +1,18 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
+import { injectIntl } from "react-intl";
+import { compose } from "redux";
+import pluginId from "pluginId";
 
-const styles = {
-  container: {
-    width: 600,
-    textAlign: 'center'
-  },
-  previewImage: {
-    maxHeight: 250,
-    maxWidth: 600
-  },
-  dimensions: {
-    fontSize: 14,
-    color: 'gray',
-    fontStyle: 'italic'
-  }
-};
+import styles from "./styles.scss";
+import reducer from "./reducer";
+import saga from "./saga";
+
+import PropTypes from "prop-types";
 
 function _arrayBufferToBase64(buffer) {
-  var binary = '';
+  var binary = "";
   var bytes = new Uint8Array(buffer);
   var len = bytes.byteLength;
   for (var i = 0; i < len; i++) {
@@ -37,7 +31,10 @@ class Preview extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (!_.isEqual(this.props.imageFormat.steps, prevProps.imageFormat.steps)) {
+    const prevSteps = prevProps.steps;
+    const nextSteps = this.props.steps;
+
+    if (!_.isEqual(prevSteps, nextSteps)) {
       this.imageNeedsUpdate = true;
       this.updateImageData();
     }
@@ -52,12 +49,12 @@ class Preview extends Component {
     this.loadingImage = true;
 
     try {
-      const response = await fetch('/image-formats/preview', {
-        method: 'POST',
+      const response = await fetch("/image-formats/preview", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify(this.props.imageFormat)
+        body: JSON.stringify({ steps: this.props.steps })
       });
 
       const buffer = await response.arrayBuffer();
@@ -87,11 +84,11 @@ class Preview extends Component {
 
     return (
       <div>
-        <div style={styles.container}>
-          <div style={styles.dimensions}>{dimensions}</div>
+        <div className={styles.container}>
+          <div className={styles.dimensions}>{dimensions}</div>
           <img
             src={imageData}
-            style={styles.previewImage}
+            className={styles.previewImage}
             onLoad={this.onImageLoaded}
           />
         </div>
@@ -101,7 +98,31 @@ class Preview extends Component {
 }
 
 Preview.propTypes = {
-  imageFormat: PropTypes.object.isRequired
+  steps: PropTypes.array.isRequired
 };
 
-export default Preview;
+const mapDispatchToProps = {};
+
+const mapStateToProps = createStructuredSelector({});
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+);
+
+const withReducer = strapi.injectReducer({
+  key: "imageFormatPreview",
+  reducer,
+  pluginId
+});
+const withSaga = strapi.injectSaga({
+  key: "imageFormatPreview",
+  saga,
+  pluginId
+});
+
+export default compose(
+  withReducer,
+  withSaga,
+  withConnect
+)(injectIntl(Preview));
