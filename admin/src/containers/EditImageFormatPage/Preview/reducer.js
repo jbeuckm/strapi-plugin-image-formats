@@ -1,52 +1,39 @@
-import { fromJS } from 'immutable';
+import { fromJS } from "immutable";
 
 import {
-  LOAD_IMAGE_FORMAT,
-  LOAD_IMAGE_FORMAT_SUCCESS,
-  LOAD_IMAGE_FORMAT_ERROR,
-  SAVE_IMAGE_FORMAT,
-  SAVE_IMAGE_FORMAT_SUCCESS,
-  SAVE_IMAGE_FORMAT_ERROR
-} from './constants';
+  FETCH_PREVIEW,
+  FETCH_PREVIEW_ERROR,
+  FETCH_PREVIEW_SUCCESS
+} from "./constants";
 
 const initialState = fromJS({
   loading: false,
-  imageFormat: null,
-  loadError: null,
-  saving: false,
-  created: null,
-  saveError: null
+  error: null,
+  imageDataUri: null
 });
 
-function createImageFormatPageReducer(state = initialState, action) {
+function previewImageReducer(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case LOAD_IMAGE_FORMAT:
-      return state.set('loading', true).set('imageFormat', null);
-
-    case LOAD_IMAGE_FORMAT_SUCCESS: {
+    case FETCH_PREVIEW:
       return state
-        .set('loading', false)
-        .set('imageFormat', payload.imageFormat);
+        .set("error", null)
+        .set("loading", true)
+        .set("imageDataUri", null);
+
+    case FETCH_PREVIEW_SUCCESS: {
+      return state
+        .set("loading", false)
+        .set("imageDataUri", payload.imageDataUri);
     }
 
-    case LOAD_IMAGE_FORMAT_ERROR:
-      return state.set('loading', false).set('loadError', payload);
-
-    case SAVE_IMAGE_FORMAT:
-      return state.set('saving', true).set('created', null);
-
-    case SAVE_IMAGE_FORMAT_SUCCESS: {
-      return state.set('saving', false).set('created', payload.saved);
-    }
-
-    case SAVE_IMAGE_FORMAT_ERROR:
-      return state.set('loading', false).set('saveError', payload);
+    case FETCH_PREVIEW_ERROR:
+      return state.set("loading", false).set("error", payload);
 
     default:
       return state;
   }
 }
 
-export default createImageFormatPageReducer;
+export default previewImageReducer;

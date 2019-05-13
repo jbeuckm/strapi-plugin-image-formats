@@ -4,8 +4,10 @@ import { createStructuredSelector } from "reselect";
 import { injectIntl } from "react-intl";
 import { compose } from "redux";
 import pluginId from "pluginId";
-
 import styles from "./styles.scss";
+
+import { fetchPreview } from "./actions";
+import { makeSelectImageDataUri } from "./selectors";
 import reducer from "./reducer";
 import saga from "./saga";
 
@@ -47,6 +49,8 @@ class Preview extends Component {
     this.imageNeedsUpdate = false;
 
     this.loadingImage = true;
+
+    this.props.fetchPreview(this.props.steps);
 
     try {
       const response = await fetch("/image-formats/preview", {
@@ -101,9 +105,13 @@ Preview.propTypes = {
   steps: PropTypes.array.isRequired
 };
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  fetchPreview
+};
 
-const mapStateToProps = createStructuredSelector({});
+const mapStateToProps = createStructuredSelector({
+  imageDataUri: makeSelectImageDataUri()
+});
 
 const withConnect = connect(
   mapStateToProps,

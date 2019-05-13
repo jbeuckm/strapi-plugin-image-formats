@@ -1,39 +1,32 @@
-import { createSelector } from 'reselect';
-import pluginId from 'pluginId';
+import { createSelector } from "reselect";
+import pluginId from "pluginId";
 
 /**
  * Direct selector to the examplePage state domain
  */
-const selectEditImageFormatPageDomain = () => state =>
-  state.get(`${pluginId}_createImageFormatPage`);
+const selectImagePreviewDomain = () => state =>
+  state.get(`${pluginId}_previewImage`);
 
 /**
  * Default selector used by HomePage
  */
 
 const makeSelectLoading = () =>
-  createSelector(selectEditImageFormatPageDomain(), substate =>
-    substate.get('loading')
+  createSelector(
+    selectImagePreviewDomain(),
+    substate => substate.get("loading")
   );
 
-const makeSelectImageFormat = () =>
-  createSelector(selectEditImageFormatPageDomain(), substate =>
-    substate.get('imageFormat')
+const makeSelectImageDataUri = () =>
+  createSelector(
+    selectImagePreviewDomain(),
+    substate => substate.get("imageDataUri")
   );
 
-const makeSelectCreated = () =>
-  createSelector(selectEditImageFormatPageDomain(), substate =>
-    substate.get('created')
+const makeSelectError = () =>
+  createSelector(
+    selectImagePreviewDomain(),
+    substate => substate.get("error")
   );
 
-const makeSelectSaving = () =>
-  createSelector(selectEditImageFormatPageDomain(), substate =>
-    substate.get('saving')
-  );
-
-export {
-  makeSelectLoading,
-  makeSelectImageFormat,
-  makeSelectCreated,
-  makeSelectSaving
-};
+export { makeSelectLoading, makeSelectError, makeSelectImageDataUri };

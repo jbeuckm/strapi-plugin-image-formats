@@ -1,57 +1,31 @@
-import { fork, takeLatest, call, put } from 'redux-saga/effects';
-import request from 'utils/request';
+import { fork, takeLatest, call, put } from "redux-saga/effects";
+import request from "utils/request";
 
-import {
-  loadImageFormatError,
-  loadImageFormatSuccess,
-  saveImageFormatError,
-  saveImageFormatSuccess
-} from './actions';
-import { LOAD_IMAGE_FORMAT, SAVE_IMAGE_FORMAT } from './constants';
+import { fetchPreviewError, fetchPreviewSuccess } from "./actions";
+import { FETCH_PREVIEW } from "./constants";
 
-export function* loadImageFormat(event) {
+export function* fetchPreviewSaga(event) {
   try {
-    const { imageFormatId } = event.payload;
+    const { steps } = event.payload;
 
-    const imageFormat = yield call(request, `/image-formats/${imageFormatId}`, {
-      method: 'GET'
+    const response = yield call(request, `/image-formats/preview`, {
+      method: "POST",
+      body: { steps }
     });
 
-    yield put(loadImageFormatSuccess(imageFormat));
+    console.log({ response });
+
+    yield put(fetchPreviewSuccess(response));
+
+    //    yield put(fetchPreviewError(saved));
   } catch (error) {
-    strapi.notification.error('notification.error');
-    yield put(loadImageFormatError(error));
-  }
-}
-
-export function* saveImageFormat(event) {
-  try {
-    const { imageFormat } = event.payload;
-
-    if (imageFormat.id) {
-      const saved = yield call(request, `/image-formats/${imageFormat.id}`, {
-        method: 'PUT',
-        body: imageFormat
-      });
-
-      yield put(saveImageFormatSuccess(saved));
-    } else {
-      const saved = yield call(request, '/image-formats', {
-        method: 'POST',
-        body: imageFormat
-      });
-
-      yield put(saveImageFormatSuccess(saved));
-    }
-  } catch (error) {
-    strapi.notification.error('notification.error');
-    yield put(saveImageFormatError(error));
+    strapi.notification.error("notification.error");
+    yield put(fetchPreviewError(error));
   }
 }
 
 export function* defaultSaga() {
-  yield fork(takeLatest, LOAD_IMAGE_FORMAT, loadImageFormat);
-  yield fork(takeLatest, SAVE_IMAGE_FORMAT, saveImageFormat);
+  yield fork(takeLatest, FETCH_PREVIEW, fetchPreviewSaga);
 }
 
 export default defaultSaga;
