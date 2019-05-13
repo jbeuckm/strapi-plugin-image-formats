@@ -5,7 +5,7 @@
       "path": "/preview",
       "handler": "ImageFormats.preview",
       "config": {
-        "policies": ["global.isAuthenticated"]
+        "policies": []
       }
     },
     {
@@ -13,7 +13,7 @@
       "path": "/",
       "handler": "ImageFormats.create",
       "config": {
-        "policies": ["global.isAuthenticated"]
+        "policies": []
       }
     },
     {
@@ -21,7 +21,7 @@
       "path": "/",
       "handler": "ImageFormats.index",
       "config": {
-        "policies": ["global.isAuthenticated"]
+        "policies": []
       }
     },
     {
@@ -29,7 +29,7 @@
       "path": "/:imageFormatId",
       "handler": "ImageFormats.fetch",
       "config": {
-        "policies": ["global.isAuthenticated"]
+        "policies": []
       }
     },
     {
@@ -37,7 +37,7 @@
       "path": "/:imageFormatId",
       "handler": "ImageFormats.update",
       "config": {
-        "policies": ["global.isAuthenticated"]
+        "policies": []
       }
     },
     {
@@ -45,7 +45,7 @@
       "path": "/:imageFormatId",
       "handler": "ImageFormats.delete",
       "config": {
-        "policies": ["global.isAuthenticated"]
+        "policies": []
       }
     },
     {
