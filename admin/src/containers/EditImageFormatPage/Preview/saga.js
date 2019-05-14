@@ -17,7 +17,6 @@ function _arrayBufferToBase64(buffer) {
 export function* fetchPreviewSaga(event) {
   try {
     const { steps } = event.payload;
-    console.log("fetchPreviewSaga", { steps });
 
     const options = {
       method: "POST",
@@ -25,22 +24,19 @@ export function* fetchPreviewSaga(event) {
         Authorization: `Bearer ${auth.getToken()}`,
         "Content-Type": "application/json"
       },
-      body: { steps }
+      body: JSON.stringify({ steps })
     };
-    console.log({ options });
 
     const request = () =>
       fetch(`${strapi.backendURL}/image-formats/preview`, options);
 
     const response = yield call(request);
 
-    const buffer = response.arrayBuffer();
-    console.log({ buffer });
+    const buffer = yield call(() => response.arrayBuffer());
+
     const imageData = _arrayBufferToBase64(buffer);
 
     const imageDataUri = `data:image/jpeg;charset=utf-8;base64,${imageData}`;
-
-    console.log(imageDataUri);
 
     yield put(fetchPreviewSuccess(imageDataUri));
 

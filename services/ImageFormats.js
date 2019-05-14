@@ -1,11 +1,11 @@
-'use strict';
-const getUploadProvider = require('./utils/upload/getUploadProvider');
-const getFileDescriptor = require('./utils/upload/getFileDescriptor');
-const relateFileToContent = require('./utils/upload/relateFileToContent');
+"use strict";
+const getUploadProvider = require("./utils/upload/getUploadProvider");
+const getFileDescriptor = require("./utils/upload/getFileDescriptor");
+const relateFileToContent = require("./utils/upload/relateFileToContent");
 
-const Jimp = require('jimp');
-const jimpMethods = require('./jimpMethods');
-const fs = require('fs');
+const Jimp = require("jimp");
+const jimpMethods = require("./jimpMethods");
+const fs = require("fs");
 
 /**
  * ImageFormats.js service
@@ -29,7 +29,7 @@ module.exports = {
 
   retrieveCachedFormattedImage: async ({ imageFormat, fileId }) => {
     const record = await strapi
-      .query('formattedimage', 'image-formats')
+      .query("formattedimage", "image-formats")
       .findOne({ imageFormatId: imageFormat.id, originalFileId: fileId });
 
     return record && record.file[0];
@@ -38,13 +38,13 @@ module.exports = {
   getFormattedImage: async ({ imageFormatName, fileId }) => {
     const [imageFormat, uploadProvider] = await Promise.all([
       strapi
-        .query('imageformat', 'image-formats')
+        .query("imageformat", "image-formats")
         .findOne({ name: imageFormatName }),
       getUploadProvider()
     ]);
 
-    const cachedImage = await strapi.plugins['image-formats'].services[
-      'imageformats'
+    const cachedImage = await strapi.plugins["image-formats"].services[
+      "imageformats"
     ].retrieveCachedFormattedImage({ imageFormat, fileId });
 
     if (cachedImage) {
@@ -53,7 +53,7 @@ module.exports = {
       return { mime: cachedImage.mime, buffer };
     }
 
-    const file = await strapi.plugins['upload'].services['upload'].fetch({
+    const file = await strapi.plugins["upload"].services["upload"].fetch({
       id: fileId
     });
 
@@ -68,8 +68,8 @@ module.exports = {
 
     const buffer = await image.getBufferAsync(Jimp.AUTO);
 
-    strapi.plugins['image-formats'].services[
-      'imageformats'
+    strapi.plugins["image-formats"].services[
+      "imageformats"
     ].cacheFormattedImage({ imageFormat, originalFile: file, buffer });
 
     return { mime: image.getMIME(), buffer };
@@ -78,7 +78,7 @@ module.exports = {
   cacheFormattedImage: async ({ imageFormat, originalFile, buffer }) => {
     const fileDescriptor = getFileDescriptor({
       mimeType: originalFile.mime,
-      extension: originalFile.ext.replace('.', ''),
+      extension: originalFile.ext.replace(".", ""),
       buffer
     });
 
@@ -91,7 +91,7 @@ module.exports = {
     fileDescriptor.provider = provider.provider;
 
     const formattedImage = await strapi
-      .query('formattedimage', 'image-formats')
+      .query("formattedimage", "image-formats")
       .create({
         imageFormatId: imageFormat.id,
         originalFileId: originalFile.id
@@ -99,9 +99,9 @@ module.exports = {
 
     await relateFileToContent({
       fileDescriptor,
-      referringField: 'file',
-      referringContentSource: 'image-formats',
-      referringModel: 'formattedimage',
+      referringField: "file",
+      referringContentSource: "image-formats",
+      referringModel: "formattedimage",
       referringId: formattedImage.id
     });
   }
