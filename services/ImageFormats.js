@@ -60,7 +60,12 @@ module.exports = {
     const url = uploadProvider.getPath(file);
     const image = await Jimp.read(url);
 
-    imageFormat.steps.forEach(({ method, params }) => {
+    const steps =
+      typeof imageFormat.steps === "string"
+        ? JSON.parse(imageFormat.steps)
+        : imageFormat.steps;
+
+    steps.forEach(({ method, params }) => {
       const methodFunction = image[method];
       const args = jimpMethods[method].getArgumentsArray(params);
       methodFunction.apply(image, args);
